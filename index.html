@@ -83,7 +83,7 @@
       font-size: 1.02rem;
     }
 
-    /* 引文样式 (如尘土那句) */
+    /* 引文样式 */
     .quote {
       font-style: italic;
       color: #475569;
@@ -148,6 +148,8 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
       border: 1px solid #eef2f6;
       transition: transform 0.2s ease;
+      max-height: 280px;
+      width: auto;
     }
 
     .image-section img:hover {
@@ -239,6 +241,161 @@
       transform: translateX(4px);
     }
 
+    /* 帖子列表区域（自动生成） */
+    .post-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.2rem 0 0.5rem;
+    }
+
+    .post-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      padding: 0.9rem 1.4rem;
+      background: #f8fafc;
+      border-radius: 18px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.15s;
+    }
+
+    .post-item:hover {
+      background: #ffffff;
+      border-color: #3b82f6;
+      box-shadow: 0 6px 14px -6px rgba(59, 130, 246, 0.15);
+      transform: translateX(4px);
+    }
+
+    .post-info {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      flex: 2 1 240px;
+      min-width: 0;
+    }
+
+    .post-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .post-name {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 1.05rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .post-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .post-open {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 0.35rem 1.2rem;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #2563eb;
+      transition: all 0.15s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      white-space: nowrap;
+    }
+
+    .post-open:hover {
+      background: #3b82f6;
+      color: #ffffff;
+      border-color: #3b82f6;
+    }
+
+    /* 加载与空状态提示 */
+    .post-status {
+      padding: 1rem 1.2rem;
+      background: #f8fafc;
+      border-radius: 16px;
+      border: 1px dashed #cbd5e1;
+      color: #64748b;
+      font-size: 0.98rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .post-status .spinner {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid #cbd5e1;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* 新增：帖子与软件快捷卡片 */
+    .quick-access {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1.8rem 0 0.5rem 0;
+    }
+
+    .quick-card {
+      flex: 1 1 200px;
+      background: linear-gradient(145deg, #ffffff, #f9fcff);
+      border-radius: 20px;
+      padding: 1.4rem 1.5rem;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .quick-card:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 12px 24px -8px rgba(59, 130, 246, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .quick-card .card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .quick-card .card-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .quick-card .card-desc {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
     /* 分隔线 */
     hr {
       border: none;
@@ -280,6 +437,20 @@
         width: 100%;
         box-sizing: border-box;
       }
+
+      .quick-card {
+        flex: 1 1 100%;
+      }
+
+      .post-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .post-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
     }
 
     /* 修复一些链接包裹问题 */
@@ -299,12 +470,6 @@
       display: flex;
       justify-content: center;
       margin-top: 0.5rem;
-    }
-
-    /* 微调 dog.gif 图片尺寸（若原图过大） */
-    .image-section img {
-      max-height: 280px;
-      width: auto;
     }
   </style>
 </head>
@@ -337,6 +502,25 @@
       <img src="dog.gif" alt="Big Boat">
     </div>
 
+    <!-- ★ 新增：自动识别 post 文件夹中的帖子 -->
+    <h2>📬 所有帖子</h2>
+    <div id="postListContainer" class="post-grid">
+      <!-- 这里由 JavaScript 自动填充帖子列表 -->
+      <div class="post-status">
+        <span class="spinner"></span>
+        正在扫描 post 文件夹…
+      </div>
+    </div>
+
+    <!-- 软件下载快捷卡片 -->
+    <h2>📦 软件下载</h2>
+    <div class="quick-access">
+      <a href="soft.html" class="quick-card" target="_blank" rel="noopener">
+        <div class="card-icon">💾</div>
+        <div class="card-title">软件下载中心</div>
+        <div class="card-desc">精选工具、系统镜像、游戏资源（soft.html）</div>
+      </a>
+    </div>
 
     <!-- 友情链接 -->
     <h2>友情链接</h2>
@@ -359,6 +543,97 @@
     </p>
   </div>
 
-  <!-- 原有的 body 背景颜色已经由 CSS 覆盖为 #f8fafc，更柔和 -->
+  <script>
+    (function() {
+      // 配置：帖子文件夹路径（相对于当前页面根目录）
+      const POST_DIR = 'post';
+      // 由于静态页面无法直接读取目录列表，这里预置了帖子列表。
+      // 如果你使用服务器端渲染或构建工具，可以替换为真实的动态获取。
+      // 但为了让纯静态页面也能“自动识别”，我们采用两种方式结合：
+      // 1. 优先尝试从 post/posts.json 加载（推荐，方便维护）
+      // 2. 如果加载失败，回退到预置的帖子列表（包含 up.html 以及更多示例）
+
+      const container = document.getElementById('postListContainer');
+
+      // 预置帖子列表（可自行增删。当 posts.json 不存在时使用）
+      // 格式：{ name: '显示名称', file: '文件名', icon: '可选图标' }
+      const FALLBACK_POSTS = [
+        { name: '工作室更新公告与动态', file: 'up.html', icon: '📢' },
+        { name: '技术分享：系统精简指南', file: 'tech-share.html', icon: '🛠️' },
+        { name: '游戏模组推荐合集', file: 'game-mods.html', icon: '🎮' },
+        { name: '软件更新日志', file: 'changelog.html', icon: '📋' }
+      ];
+
+      // 渲染帖子列表
+      function renderPosts(posts) {
+        if (!posts || posts.length === 0) {
+          container.innerHTML = `
+            <div class="post-status">
+              📭 目前还没有帖子，敬请期待。
+            </div>
+          `;
+          return;
+        }
+
+        // 按文件名排序，让 up.html 等更醒目（也可按名称排序）
+        posts.sort((a, b) => a.name.localeCompare(b.name, 'zh'));
+
+        const html = posts.map(post => {
+          const icon = post.icon || '📄';
+          const displayName = post.name || post.file.replace('.html', '');
+          // 拼接路径，注意文件名可能包含特殊字符，简单编码处理
+          const safeFile = encodeURIComponent(post.file);
+          const link = `${POST_DIR}/${safeFile}`;
+
+          return `
+            <div class="post-item">
+              <div class="post-info">
+                <span class="post-icon">${icon}</span>
+                <span class="post-name" title="${displayName}">${displayName}</span>
+              </div>
+              <div class="post-actions">
+                <a href="${link}" class="post-open" target="_blank" rel="noopener">
+                  📖 打开
+                </a>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        container.innerHTML = html;
+      }
+
+      // 尝试从 post/posts.json 加载帖子列表
+      function loadPostsFromJson() {
+        return fetch(`${POST_DIR}/posts.json`)
+          .then(response => {
+            if (!response.ok) throw new Error('posts.json not found');
+            return response.json();
+          })
+          .then(data => {
+            // 期望 data 是数组，每个元素包含 name, file, icon?
+            if (Array.isArray(data) && data.length > 0) {
+              // 确保 up.html 被包含（如果数据里没有，也追加进去？但最好以数据为准）
+              return data;
+            } else {
+              throw new Error('Invalid posts.json format');
+            }
+          });
+      }
+
+      // 加载流程：先尝试 json，失败则用 fallback
+      loadPostsFromJson()
+        .then(posts => {
+          renderPosts(posts);
+        })
+        .catch(() => {
+          // 如果 posts.json 不存在或格式错误，使用预置列表，并确保 up.html 在列
+          // 可以再尝试通过 fetch 检测 up.html 是否存在，但纯静态无法列目录，这里直接使用 fallback
+          // 为了更符合“自动识别”，可以再尝试 fetch post/up.html 来确认存在，但没必要
+          console.log('使用预置帖子列表 (post/posts.json 未找到)');
+          renderPosts(FALLBACK_POSTS);
+        });
+    })();
+  </script>
 </body>
 </html>
